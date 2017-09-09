@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     .header('Access-Control-Allow-Origin', '*')
     .header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
   next();
-})
+});
 
 // ####Our routes####
 

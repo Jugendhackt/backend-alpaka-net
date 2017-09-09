@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const Db = require('mongodb').Db;
 
-const URI = 'mongodb://10.172.14.70:27017/local';
+const URI = 'mongodb://10.172.3.201:27017/local';
 
 var instance = null;
 
