@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
         email: (result.mail) ? result.mail : '',
         phone: (result.phone) ? result.phone : '',
         ID: result._id
-      }
+      };
 
       res.send(JSON.stringify(
         response
