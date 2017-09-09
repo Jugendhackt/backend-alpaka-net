@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 const db = require('./../logic/DatabaseWrapper');
 
-
+// Route: /user/?name=[Name]
 router.get('/', function(req, res, next) {
   res.type('application/json');
 
+  // validate name
   if(!req.query.name) {
     res.status(400);
     res.end(JSON.stringify({
@@ -13,23 +14,26 @@ router.get('/', function(req, res, next) {
     }))
   }
 
+  // get search query
+  /** @type {string} name */
+  const Name = req.query.name.toLowerCase();
+
   db.getInstance().then(db => {
     db.collection('users').findOne({
-      name: req.query.name.toLowerCase()
+      name: Name
     }).then(result => {
-      let response = {
+      const response = {
         name: result.name,
         fullName: result.fullName,
         bday: (result.bday) ? result.bday : '',
-        email: (result.mail) ? result.mail : '',
-        phone: (result.phone) ? result.phone : '',
-        ID: result._id
+        email: (result.mail) ? result.mail : ''
       }
 
       res.send(JSON.stringify(
         response
       ));
     }).catch(err => {
+      // most likely mongodb returned some kind of crap
       res.status(404);
       res.end(JSON.stringify({
         msg: err.message
