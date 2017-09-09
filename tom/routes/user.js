@@ -26,7 +26,9 @@ router.get('/', function(req, res, next) {
         name: result.name,
         fullName: result.fullName,
         bday: (result.bday) ? result.bday : '',
-        email: (result.mail) ? result.mail : ''
+        email: (result.mail) ? result.mail : '',
+        phone: (result.phone) ? result.phone : '',
+        ID: result._id
       }
 
       res.send(JSON.stringify(
