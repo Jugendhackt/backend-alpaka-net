@@ -21,7 +21,9 @@ router.get('/', function(req, res, next) {
         name: result.name,
         fullName: result.fullName,
         bday: (result.bday) ? result.bday : '',
-        email: (result.mail) ? result.mail : ''
+        email: (result.mail) ? result.mail : '',
+        phone: (result.phone) ? result.phone : '',
+        ID: result._id
       }
 
       res.send(JSON.stringify(
@@ -35,5 +37,43 @@ router.get('/', function(req, res, next) {
     });
   });
 });
+
+//router.use('/skill', function(req, res, next) {
+  router.get('/skill/add', function(req, res, next) {
+
+    res.type('application/json');
+
+    if(!req.query.ID) {
+      res.status(400);
+      res.end(JSON.stringify({
+        errmsg: 'No ID provided'
+      }));
+    }
+    if(!req.query.skill) {
+      res.status(400);
+      res.end(JSON.stringify({
+        errmsg: 'No skill to add'
+      }));
+    }
+
+    db.getInstance().then(db => {
+      db.collection('users').updateOne(
+        { _id: req.query.ID },
+        { $addToSet: {skills: [req.query.skill]}}
+      ).then(result => {
+        res.status(200);
+        res.send(JSON.stringify({
+          msg: result
+        }));
+      }).catch(err => {
+        res.status(404);
+        res.end(JSON.stringify({
+          errmsg: err.message
+        }))
+      });
+  });
+
+  });
+//});
 
 module.exports = router;
